@@ -33,7 +33,10 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-df = pd.read_csv('load_loans.csv')
+# Resolve data path relative to this script so execution works from any cwd.
+base_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(base_dir, 'load_loans.csv')
+df = pd.read_csv(csv_path)
 
 print('Various info of dataset:\n')
 
@@ -201,6 +204,21 @@ print(df_loans.head())
 df_loans['Dependents'].replace(('0', '1', '2', '3+'),(0, 1, 2, 3),inplace=True)
 df_loans['Education'].replace(('Not Graduate', 'Graduate'),(0, 1),inplace=True)
 df_loans['Self_Employed'].replace(('No','Yes'),(0,1),inplace=True)
+
+# Make sure no text values remain before model training.
+df_loans['Dependents'] = pd.to_numeric(df_loans['Dependents'], errors='coerce')
+remaining_text_cols = df_loans.select_dtypes(include=['object', 'string']).columns.tolist()
+remaining_text_cols = [col for col in remaining_text_cols if col != 'Loan_Status']
+if remaining_text_cols:
+	df_loans = pd.get_dummies(df_loans, columns=remaining_text_cols, drop_first=True)
+
+for col in df_loans.columns:
+	if df_loans[col].isnull().any():
+		if pd.api.types.is_numeric_dtype(df_loans[col]):
+			df_loans[col] = df_loans[col].fillna(df_loans[col].median())
+		else:
+			df_loans[col] = df_loans[col].fillna(df_loans[col].mode().iloc[0])
+
 print(df_loans.head())
 
 print('\nPrepare training and testing dataset:\n')
