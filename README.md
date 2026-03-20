@@ -41,7 +41,9 @@ lab/
             test-mails/
         images/
     Lab04.Linear Regression/
+        Lab04.pdf
         Lab4-Linear-Regression.ipynb
+        cal_housing_py3.pkz
         housing.csv/
             housing.csv
         images/
@@ -70,6 +72,12 @@ pip install numpy pandas matplotlib seaborn scikit-learn scipy jupyter notebook
 3. Lab03：朴素贝叶斯方法与邮件垃圾分类数据实践。
 4. Lab04：线性回归基础与房价数据集实验。
 
+### Lab04 数据说明（最新）
+
+- 课程作业当前可使用老师提供的 `cal_housing_py3.pkz` 数据集。
+- 在 `Lab4-Linear-Regression.ipynb` 中建议采用“训练集 + 验证集 + 测试集”流程，并在训练集上做交叉验证。
+- 测试集仅用于最终一次评估，避免数据泄漏。
+
 ## 使用方式
 
 ### 运行脚本
@@ -87,6 +95,15 @@ jupyter notebook
 ```
 
 启动后在浏览器中打开对应实验目录下的 .ipynb 文件。
+
+### Lab04 作业建议运行位置
+
+```bash
+cd "lab/Lab04.Linear Regression"
+jupyter notebook
+```
+
+进入 `Lab4-Linear-Regression.ipynb` 后，优先确认 `cal_housing_py3.pkz` 文件与 Notebook 位于同一目录。
 
 ## 维护说明
 
